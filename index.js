@@ -55,7 +55,7 @@ var stateTransitions =
     "repouso->programando":0,
     "repouso->refatorando":0
 };
-
+var result = "";
 var lastState;
 var lastTime;
 
@@ -91,12 +91,15 @@ for(var i = 0; i < lines.length; i++)
     lastState = state;
     lastTime = time;
 }
-console.log("\n QUANTIDADE DE ESTADOS")
-console.log(statesCount);
 
-console.log("\n TEMPO DE ESTADO: ")
-console.log(statesTime);
+result+="\n QUANTIDADE DE ESTADOS: ";
+result+=JSON.stringify(statesCount, null, "\t");
 
-console.log("\n QUANTIDADE TRANSAÇÕES: ")
-console.log(Object.filter(stateTransitions, count => count > 0));
+result+="\n TEMPO DE ESTADO: ";
+result+=JSON.stringify(statesTime, null, "\t");
 
+result+="\n QUANTIDADE TRANSAÇÕES: ";
+result+=JSON.stringify(Object.filter(stateTransitions, count => count > 0), null, "\t");
+
+fs.writeFileSync("result.txt", result, "utf-8");
+console.log(result);
