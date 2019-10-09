@@ -1,7 +1,16 @@
 const fs = require("fs");
 const date = require("date-and-time");
-const filename = "131860876603139440.txt";
+var argv = require('yargs')
+  .usage('Usage: node index.js path/to/statestimes.txt')
+  .check(function (argv) {
+    if (!argv._.length) throw new Error('A path to a valid states.txt is required')
+    return true
+  })
+  .help('help')
+  .alias('h', 'help')
+  .argv
 
+var filename = argv._[0]
 var statesTime =
 {
     "criando":0,
@@ -55,6 +64,7 @@ var stateTransitions =
     "repouso->programando":0,
     "repouso->refatorando":0
 };
+
 var result = "";
 var lastState;
 var lastTime;
@@ -101,5 +111,4 @@ result+=JSON.stringify(statesTime, null, "\t");
 result+="\n QUANTIDADE TRANSAÇÕES: ";
 result+=JSON.stringify(Object.filter(stateTransitions, count => count > 0), null, "\t");
 
-fs.writeFileSync("result.txt", result, "utf-8");
 console.log(result);
